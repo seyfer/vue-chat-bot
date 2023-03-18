@@ -1,6 +1,6 @@
 {
   "name": "vue-chat-bot",
-  "version": "1.0.11",
+  "version": "1.0.13",
   "description": "Chatbot UI using Vue.js 2",
   "author": {
     "name": "Chea Bonnak"
@@ -51,18 +51,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/cuoool/vue-chat-bot.git.git"
+    "url": "git+https://github.com/bonnak/vue-chat-bot.git"
   },
   "bugs": {
-    "url": "https://github.com/cuoool/vue-chat-bot.git/issues"
+    "url": "https://github.com/bonnak/vue-chat-bot/issues"
   },
-  "homepage": "https://github.com/cuoool/vue-chat-bot.git#readme",
+  "homepage": "https://github.com/bonnak/vue-chat-bot#readme",
   "license": "MIT",
   "volta": {
     "node": "16.14.0",
     "yarn": "1.22.19"
-  },
-  "dependencies": {
-    "release-please": "^15.9.1"
   }
 }
