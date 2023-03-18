@@ -57,5 +57,12 @@
     "url": "https://github.com/cuoool/vue-chat-bot.git/issues"
   },
   "homepage": "https://github.com/cuoool/vue-chat-bot.git#readme",
-  "license": "MIT"
+  "license": "MIT",
+  "volta": {
+    "node": "16.14.0",
+    "yarn": "1.22.19"
+  },
+  "dependencies": {
+    "release-please": "^15.9.1"
+  }
 }

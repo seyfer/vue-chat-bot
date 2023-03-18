@@ -8,6 +8,8 @@
         :bot-title="optionsMain.botTitle",
         @close-bot="botToggle"
       )
+        template(v-slot:header)
+          slot(name="header")
       BoardContent(
         :bot-typing="botTyping",
         :main-data="messages"

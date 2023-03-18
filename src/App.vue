@@ -34,7 +34,7 @@ export default {
         botAvatarImg: BotIcon,
         boardContentBg: '#f4f4f4',
         msgBubbleBgBot: '#fff',
-        inputPlaceholder: 'Type hereeee...',
+        inputPlaceholder: 'Type here...',
         inputDisableBg: '#fff',
         inputDisablePlaceholder: 'Hit the buttons above to respond'
       }

@@ -1,11 +1,9 @@
 
-# Vue Bot UI
+# Vue Chat Bot
 
 #### For the one who is finding a customizable chatbot UI.
 
 I build for my private project, but I tried to bring as many options as I think someone need it, so feel free to use it.
-
-*Demo page is coming soon.*
 
 <p align="center">
 <img width="300" alt="vue bot UI" src="https://user-images.githubusercontent.com/5735071/71614782-52cc2280-2be0-11ea-8c1b-7af063401d3d.png">
@@ -15,10 +13,11 @@ I build for my private project, but I tried to bring as many options as I think 
 ## Install
 
 ```bash
-npm install vue-bot-ui
+npm i vue-chat-bot
 
 // or
-yarn add vue-bot-ui
+
+yarn add vue-chat-bot
 ```
 
 ## Usage
@@ -26,11 +25,11 @@ yarn add vue-bot-ui
 Import & register the component
 
 ```javascript
-import { VueBotUI } from 'vue-bot-ui'
+import { VueChatBot } from 'vue-chat-bot'
 
 export default {
   components: {
-    VueBotUI,
+    VueChatBot,
   },
   ...
 }
@@ -39,7 +38,7 @@ export default {
 And use it:
 
 ```vue
-<VueBotUI
+<VueChatBot
   :messages="data"
   :options="botOptions"
   @msg-send="messageSendHandler"
@@ -193,7 +192,7 @@ You can overwrite the CSS by class name. Each type and state has separate class 
 ## Developers / Build
 ```bash
 # Clone repo
-git clone https://github.com/JuzSer/vue-bot-ui
+git clone https://github.com/JuzSer/vue-chat-bot
 
 # Install packages
 yarn
