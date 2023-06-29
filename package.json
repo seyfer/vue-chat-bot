@@ -15,6 +15,7 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build --dest demo",
     "build-bundle": "vue-cli-service build --target lib --name vue-chat-bot ./src/vue-chat-bot.js",
+    "build-bundle-custom": "vue-cli-service build --target lib --name osk-chat-bot ./src/main-custom.js",
     "release": "standard-version && git push --follow-tags",
     "release:next": "standard-version --prerelease next && git push --follow-tags origin dev && npm publish --tag next",
     "lint": "vue-cli-service lint --fix"
@@ -61,5 +62,9 @@
   "volta": {
     "node": "16.14.0",
     "yarn": "1.22.19"
+  },
+  "dependencies": {
+    "document-register-element": "^1.14.10",
+    "vue-custom-element": "^3.3.0"
   }
 }
