@@ -8,7 +8,7 @@ import 'document-register-element'
 
 Vue.use(vueCustomElement)
 
-Vue.component('osk-chatbot', VueChatBot)
+Vue.customElement('osk-chatbot', VueChatBot)
 
 // Create and mount the component to the custom element
 // eslint-disable-next-line no-new

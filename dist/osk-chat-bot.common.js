@@ -10669,7 +10669,7 @@ var document_register_element = __webpack_require__("289e");
 // Needed to support the custom element in older browsers
 
 vue_runtime_esm["a" /* default */].use(vue_custom_element_esm);
-vue_runtime_esm["a" /* default */].component('osk-chatbot', App);
+vue_runtime_esm["a" /* default */].customElement('osk-chatbot', App);
 
 // Create and mount the component to the custom element
 // eslint-disable-next-line no-new
