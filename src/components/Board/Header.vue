@@ -1,8 +1,11 @@
-<template lang="pug">
-.qkb-board-header
-  slot(name="header")
-    .qkb-board-header__title {{ botTitle }}
+<template>
+  <div class="qkb-board-header">
+    <slot name="header">
+      <div class="qkb-board-header__title">{{ botTitle }}</div>
+    </slot>
+  </div>
 </template>
+
 <script>
 export default {
   props: {

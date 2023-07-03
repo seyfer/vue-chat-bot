@@ -1,18 +1,16 @@
-<template lang="pug">
-#app
-  img(
-    alt="Vue Bot UI",
-    src="./assets/logo.png"
-  )
-  VueChatBot(
-    :options="botOptions",
-    :messages="messageData",
-    :bot-typing="botTyping",
-    :input-disable="inputDisable",
-    :is-open="false",
-    @init="botStart",
-    @msg-send="msgSend",
-  )
+<template>
+  <div id="app">
+    <img alt="Vue Bot UI" src="./assets/logo.png" />
+    <VueChatBot
+      :options="botOptions"
+      :messages="messageData"
+      :bot-typing="botTyping"
+      :input-disable="inputDisable"
+      :is-open="false"
+      @init="botStart"
+      @msg-send="msgSend"
+    />
+  </div>
 </template>
 <script>
 import BotIcon from './assets/icons/bot.png'
@@ -21,6 +19,7 @@ import { messageService } from './helpers/message'
 
 export default {
   components: {
+    // eslint-disable-next-line vue/no-unused-components
     BotIcon,
     VueChatBot
   },

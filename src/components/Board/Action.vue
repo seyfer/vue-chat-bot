@@ -1,27 +1,35 @@
-<template lang="pug">
-.qkb-board-action(
-  :class="actionClass"
-)
-  .qkb-board-action__wrapper
-    .qkb-board-action__msg-box
-      input.qkb-board-action__input(
-        type="text",
-        v-model="messageText",
-        ref="qkbMessageInput",
-        :disabled="inputDisable",
-        :placeholder="inputPlaceholder",
-        @keydown.enter="sendMessage",
-      )
-      .qkb-board-action__disable-text(
-        v-if="inputDisablePlaceholder && inputDisable"
-      )
-        span {{ inputDisablePlaceholder }}
-    .qkb-board-action__extra
-      slot(name="actions")
-      button.qkb-action-item.qkb-action-item--send(@click="sendMessage")
-        slot(name="sendButton")
-          IconSend.qkb-action-icon.qkb-action-icon--send
+<template>
+  <div class="qkb-board-action" :class="actionClass">
+    <div class="qkb-board-action__wrapper">
+      <div class="qkb-board-action__msg-box">
+        <input
+          class="qkb-board-action__input"
+          type="text"
+          v-model="messageText"
+          ref="qkbMessageInput"
+          :disabled="inputDisable"
+          :placeholder="inputPlaceholder"
+          @keydown.enter="sendMessage"
+        />
+        <div
+          class="qkb-board-action__disable-text"
+          v-if="inputDisablePlaceholder && inputDisable"
+        >
+          <span>{{ inputDisablePlaceholder }}</span>
+        </div>
+      </div>
+      <div class="qkb-board-action__extra">
+        <slot name="actions"></slot>
+        <button class="qkb-action-item qkb-action-item--send" @click="sendMessage">
+          <slot name="sendButton">
+            <IconSend class="qkb-action-icon qkb-action-icon--send"></IconSend>
+          </slot>
+        </button>
+      </div>
+    </div>
+  </div>
 </template>
+
 <script>
 import IconSend from '../../assets/icons/send.svg'
 

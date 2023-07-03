@@ -1,43 +1,38 @@
-<template lang="pug">
-.qkb-bot-ui(
-  :class="uiClasses"
-)
-  transition(name="qkb-fadeUp")
-    .qkb-board(v-if="botActive")
-      BoardHeader(
-        :bot-title="optionsMain.botTitle",
-        @close-bot="botToggle"
-      )
-        template(v-slot:header)
-          slot(name="header")
-      BoardContent(
-        :bot-typing="botTyping",
-        :main-data="messages"
-      )
-      BoardAction(
-        :input-disable="inputDisable",
-        :input-placeholder="optionsMain.inputPlaceholder",
-        :input-disable-placeholder="optionsMain.inputDisablePlaceholder",
-        @msg-send="sendMessage"
-      )
-  .qkb-bot-bubble
-    button.qkb-bubble-btn(
-      @click="botToggle"
-    )
-      slot(name="bubbleButton")
-        transition(name="qkb-scaleUp")
-          BubbleIcon.qkb-bubble-btn-icon(
-            v-if="!botActive",
-            key="1"
-          )
-          CloseIcon.qkb-bubble-btn-icon.qkb-bubble-btn-icon--close(
-            v-else,
-            key="2"
-          )
-  AppStyle(:options="optionsMain")
-  .qkb-preload-image
-    .qkb-msg-avatar__img(v-if="optionsMain.botAvatarImg")
+<template>
+  <div class="qkb-bot-ui" :class="uiClasses">
+    <transition name="qkb-fadeUp">
+      <div class="qkb-board" v-if="botActive">
+        <BoardHeader :bot-title="optionsMain.botTitle" @close-bot="botToggle">
+          <template v-slot:header>
+            <slot name="header"></slot>
+          </template>
+        </BoardHeader>
+        <BoardContent :bot-typing="botTyping" :main-data="messages" />
+        <BoardAction
+          :input-disable="inputDisable"
+          :input-placeholder="optionsMain.inputPlaceholder"
+          :input-disable-placeholder="optionsMain.inputDisablePlaceholder"
+          @msg-send="sendMessage"
+        />
+      </div>
+    </transition>
+    <div class="qkb-bot-bubble">
+      <button class="qkb-bubble-btn" @click="botToggle">
+        <slot name="bubbleButton">
+          <transition name="qkb-scaleUp">
+            <BubbleIcon class="qkb-bubble-btn-icon" v-if="!botActive" key="1" />
+            <CloseIcon class="qkb-bubble-btn-icon qkb-bubble-btn-icon--close" v-else key="2" />
+          </transition>
+        </slot>
+      </button>
+    </div>
+    <AppStyle :options="optionsMain" />
+    <div class="qkb-preload-image">
+      <div class="qkb-msg-avatar__img" v-if="optionsMain.botAvatarImg"></div>
+    </div>
+  </div>
 </template>
+
 <script>
 import EventBus from '../helpers/event-bus'
 import BoardHeader from './Board/Header'

@@ -1,6 +1,7 @@
-<template lang="pug">
-.qkb-bot-style(v-html="style", style="display: none")
+<template>
+  <div class="qkb-bot-style" v-html="style" style="display: none"></div>
 </template>
+
 <script>
 export default {
   props: ['options'],

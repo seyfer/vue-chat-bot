@@ -36,16 +36,18 @@
     "@vue/eslint-config-standard": "^4.0.0",
     "@vue/test-utils": "1.0.0-beta.29",
     "babel-eslint": "^10.0.3",
-    "bootstrap": "^4.3.1",
-    "core-js": "^3.3.2",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",
-    "pug": "^2.0.4",
-    "pug-plain-loader": "^1.0.0",
+    "standard-version": "^8.0.1"
+  },
+  "dependencies": {
+    "bootstrap": "^4.6.2",
+    "core-js": "^3.3.2",
+    "document-register-element": "^1.14.10",
     "sass": "^1.19.0",
     "sass-loader": "^8.0.2",
-    "standard-version": "^8.0.1",
     "vue": "^2.6.10",
+    "vue-custom-element": "^3.3.0",
     "vue-loader": "^15.8.3",
     "vue-svg-loader": "^0.15.0",
     "vue-template-compiler": "^2.6.10"
@@ -62,9 +64,5 @@
   "volta": {
     "node": "16.14.0",
     "yarn": "1.22.19"
-  },
-  "dependencies": {
-    "document-register-element": "^1.14.10",
-    "vue-custom-element": "^3.3.0"
   }
 }
