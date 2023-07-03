@@ -2,11 +2,9 @@ module.exports = {
   devServer: {
     port: 1901
   },
-
   css: {
     extract: false
   },
-
   chainWebpack: (config) => {
     const svgRule = config.module.rule('svg')
 
@@ -19,5 +17,12 @@ module.exports = {
       .use('vue-svg-loader')
       .loader('vue-svg-loader')
   },
-  productionSourceMap: false
+  productionSourceMap: false,
+  // this will pack Vue into the built library file
+  configureWebpack: {
+    externals: {
+      // exclude Vue from externals
+      vue: false
+    }
+  }
 }
