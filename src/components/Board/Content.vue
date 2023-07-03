@@ -1,12 +1,12 @@
 <template>
-  <div class="qkb-board-content" ref="boardContent">
-    <div class="qkb-board-content__bubbles" ref="boardBubbles">
+  <div ref="boardContent" class="qkb-board-content">
+    <div ref="boardBubbles" class="qkb-board-content__bubbles">
       <message-bubble
         v-for="(item, index) in mainData"
         :key="index"
         :message="item"
       ></message-bubble>
-      <div class="qkb-board-content__bot-typing" v-if="botTyping">
+      <div v-if="botTyping" class="qkb-board-content__bot-typing">
         <slot name="botTyping">
           <message-typing></message-typing>
         </slot>
@@ -22,19 +22,19 @@ import MessageTyping from '../MessageBubble/Typing'
 export default {
   components: {
     MessageBubble,
-    MessageTyping
+    MessageTyping,
   },
 
   props: {
     mainData: {
       type: Array,
-      required: true
+      required: true,
     },
 
     botTyping: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
 
   mounted () {
@@ -42,11 +42,14 @@ export default {
   },
 
   watch: {
-    mainData: function (newVal) {
-      this.$nextTick(() => {
-        this.updateScroll()
-      })
-    }
+    mainData: {
+      handler: function (newVal) {
+        this.$nextTick(() => {
+          this.updateScroll()
+        })
+      },
+      deep: true
+    },
   },
 
   methods: {
@@ -55,7 +58,7 @@ export default {
       const offsetHeight = this.$refs.boardBubbles.offsetHeight
 
       contentElm.scrollTop = offsetHeight
-    }
-  }
+    },
+  },
 }
 </script>

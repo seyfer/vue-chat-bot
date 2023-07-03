@@ -1,12 +1,12 @@
 <template>
   <div id="app">
-    <img alt="Vue Bot UI" src="./assets/logo.png" />
+    <img alt="Vue Bot UI" src="@/assets/logo.png" />
     <VueChatBot
-      :options="botOptions"
-      :messages="messageData"
       :bot-typing="botTyping"
       :input-disable="inputDisable"
       :is-open="false"
+      :messages="messageData"
+      :options="botOptions"
       @init="botStart"
       @msg-send="msgSend"
     />
@@ -21,7 +21,7 @@ export default {
   components: {
     // eslint-disable-next-line vue/no-unused-components
     BotIcon,
-    VueChatBot
+    VueChatBot,
   },
 
   data () {
@@ -35,8 +35,8 @@ export default {
         msgBubbleBgBot: '#fff',
         inputPlaceholder: 'Type here...',
         inputDisableBg: '#fff',
-        inputDisablePlaceholder: 'Hit the buttons above to respond'
-      }
+        inputDisablePlaceholder: 'Hit the buttons above to respond',
+      },
     }
   },
 
@@ -52,7 +52,7 @@ export default {
         this.messageData.push({
           agent: 'bot',
           type: 'text',
-          text: 'Hello'
+          text: 'Hello',
         })
       }, 1000)
     },
@@ -62,7 +62,7 @@ export default {
       this.messageData.push({
         agent: 'user',
         type: 'text',
-        text: value.text
+        text: value.text,
       })
 
       this.getResponse()
@@ -81,7 +81,7 @@ export default {
         .then((response) => {
           const replyMessage = {
             agent: 'bot',
-            ...response
+            ...response,
           }
 
           this.inputDisable = response.disableInput
@@ -90,8 +90,8 @@ export default {
           // finish
           this.botTyping = false
         })
-    }
-  }
+    },
+  },
 }
 </script>
 <style lang="scss">

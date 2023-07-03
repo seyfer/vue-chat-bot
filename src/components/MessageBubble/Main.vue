@@ -1,10 +1,10 @@
 <template>
-  <div class="qkb-msg-bubble" :class="bubbleClass">
-    <div class="qkb-msg-avatar" v-if="message.agent === 'bot'">
+  <div :class="bubbleClass" class="qkb-msg-bubble">
+    <div v-if="message.agent === 'bot'" class="qkb-msg-avatar">
       <div class="qkb-msg-avatar__img">&nbsp;</div>
     </div>
-    <component v-if="componentType" :is="componentType" :main-data="message"></component>
-    <div class="qkb-msg-bubble__time" v-if="message.createdAt">{{ message.createdAt }}</div>
+    <component :is="componentType" v-if="componentType" :main-data="message"></component>
+    <div v-if="message.createdAt" class="qkb-msg-bubble__time">{{ message.createdAt }}</div>
   </div>
 </template>
 
@@ -15,13 +15,13 @@ import ButtonOptions from './ButtonOptions'
 export default {
   components: {
     SingleText,
-    ButtonOptions
+    ButtonOptions,
   },
 
   props: {
     message: {
-      type: Object
-    }
+      type: Object,
+    },
   },
 
   computed: {
@@ -44,7 +44,7 @@ export default {
       }
 
       return type
-    }
-  }
+    },
+  },
 }
 </script>

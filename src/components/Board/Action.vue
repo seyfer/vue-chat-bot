@@ -1,19 +1,19 @@
 <template>
-  <div class="qkb-board-action" :class="actionClass">
+  <div :class="actionClass" class="qkb-board-action">
     <div class="qkb-board-action__wrapper">
       <div class="qkb-board-action__msg-box">
         <input
-          class="qkb-board-action__input"
-          type="text"
-          v-model="messageText"
           ref="qkbMessageInput"
+          v-model="messageText"
           :disabled="inputDisable"
           :placeholder="inputPlaceholder"
+          class="qkb-board-action__input"
+          type="text"
           @keydown.enter="sendMessage"
         />
         <div
-          class="qkb-board-action__disable-text"
           v-if="inputDisablePlaceholder && inputDisable"
+          class="qkb-board-action__disable-text"
         >
           <span>{{ inputDisablePlaceholder }}</span>
         </div>
@@ -22,7 +22,7 @@
         <slot name="actions"></slot>
         <button class="qkb-action-item qkb-action-item--send" @click="sendMessage">
           <slot name="sendButton">
-            <IconSend class="qkb-action-icon qkb-action-icon--send"></IconSend>
+            <img class="qkb-action-icon qkb-action-icon--send" src="@/assets/icons/send.svg" />
           </slot>
         </button>
       </div>
@@ -31,31 +31,25 @@
 </template>
 
 <script>
-import IconSend from '../../assets/icons/send.svg'
-
 export default {
-  components: {
-    IconSend
-  },
-
   props: {
     inputPlaceholder: {
-      type: String
+      type: String,
     },
 
     inputDisablePlaceholder: {
-      type: String
+      type: String,
     },
 
     inputDisable: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
 
   data () {
     return {
-      messageText: null
+      messageText: null,
     }
   },
 
@@ -74,7 +68,7 @@ export default {
       // TODO: sending
 
       return actionClasses
-    }
+    },
   },
 
   mounted () {
@@ -87,7 +81,7 @@ export default {
         this.$emit('msg-send', { text: this.messageText })
         this.messageText = null
       }
-    }
-  }
+    },
+  },
 }
 </script>

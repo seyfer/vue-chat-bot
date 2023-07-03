@@ -1,13 +1,13 @@
 import { fakeMessages } from './fake-messages'
 
 export const messageService = {
-  createMessage
+  createMessage,
 }
 
 function createMessage () {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      let randomNumber = Math.floor(Math.random() * fakeMessages.length)
+      const randomNumber = Math.floor(Math.random() * fakeMessages.length)
       resolve(fakeMessages[randomNumber])
     }, 1000)
   })

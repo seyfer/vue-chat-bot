@@ -1,7 +1,7 @@
 <template>
-  <div class="qkb-bot-ui" :class="uiClasses">
+  <div :class="uiClasses" class="qkb-bot-ui">
     <transition name="qkb-fadeUp">
-      <div class="qkb-board" v-if="botActive">
+      <div v-if="botActive" class="qkb-board">
         <BoardHeader :bot-title="optionsMain.botTitle" @close-bot="botToggle">
           <template v-slot:header>
             <slot name="header"></slot>
@@ -10,8 +10,8 @@
         <BoardContent :bot-typing="botTyping" :main-data="messages" />
         <BoardAction
           :input-disable="inputDisable"
-          :input-placeholder="optionsMain.inputPlaceholder"
           :input-disable-placeholder="optionsMain.inputDisablePlaceholder"
+          :input-placeholder="optionsMain.inputPlaceholder"
           @msg-send="sendMessage"
         />
       </div>
@@ -20,15 +20,15 @@
       <button class="qkb-bubble-btn" @click="botToggle">
         <slot name="bubbleButton">
           <transition name="qkb-scaleUp">
-            <BubbleIcon class="qkb-bubble-btn-icon" v-if="!botActive" key="1" />
-            <CloseIcon class="qkb-bubble-btn-icon qkb-bubble-btn-icon--close" v-else key="2" />
+            <img v-if="!botActive" key="1" class="qkb-bubble-btn-icon" src="@/assets/icons/bubble.svg" />
+            <img v-else key="2" class="qkb-bubble-btn-icon qkb-bubble-btn-icon--close" src="@/assets/icons/close.svg" />
           </transition>
         </slot>
       </button>
     </div>
     <AppStyle :options="optionsMain" />
     <div class="qkb-preload-image">
-      <div class="qkb-msg-avatar__img" v-if="optionsMain.botAvatarImg"></div>
+      <div v-if="optionsMain.botAvatarImg" class="qkb-msg-avatar__img"></div>
     </div>
   </div>
 </template>
@@ -39,8 +39,6 @@ import BoardHeader from './Board/Header'
 import BoardContent from './Board/Content'
 import BoardAction from './Board/Action'
 import AppStyle from './AppStyle'
-import BubbleIcon from '../assets/icons/bubble.svg'
-import CloseIcon from '../assets/icons/close.svg'
 
 export default {
   name: 'VueBotUI',
@@ -49,35 +47,35 @@ export default {
     BoardHeader,
     BoardContent,
     BoardAction,
-    BubbleIcon,
-    CloseIcon,
-    AppStyle
+    AppStyle,
   },
 
   props: {
     options: {
       type: Object,
-      default: () => { return {} }
+      default: () => {
+        return {}
+      },
     },
 
     messages: {
-      type: Array
+      type: Array,
     },
 
     botTyping: {
       type: Boolean,
-      default: false
+      default: false,
     },
 
     inputDisable: {
       type: Boolean,
-      default: false
+      default: false,
     },
 
     isOpen: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
 
   data () {
@@ -98,8 +96,8 @@ export default {
         msgBubbleColorUser: '#fff',
         inputPlaceholder: 'Message',
         inputDisableBg: '#fff',
-        inputDisablePlaceholder: null
-      }
+        inputDisablePlaceholder: null,
+      },
     }
   },
 
@@ -110,14 +108,14 @@ export default {
 
     // Add class to bot ui wrapper
     uiClasses () {
-      let classes = []
+      const classes = []
 
       if (this.optionsMain.animation) {
         classes.push('qkb-bot-ui--animate')
       }
 
       return classes
-    }
+    },
   },
 
   created () {
@@ -125,11 +123,11 @@ export default {
   },
 
   mounted () {
-    EventBus.$on('select-button-option', this.selectOption)
+    EventBus.on('select-button-option', this.selectOption)
   },
 
-  beforeDestroy () {
-    EventBus.$off('select-button-option')
+  beforeUnmount () {
+    EventBus.off('select-button-option')
   },
 
   methods: {
@@ -158,9 +156,9 @@ export default {
 
     selectOption (value) {
       this.$emit('msg-send', value)
-    }
-  }
+    },
+  },
 }
 </script>
 
-<style src="../assets/scss/_app.scss" lang="scss"></style>
+<style lang="scss" src="../assets/scss/_app.scss"></style>

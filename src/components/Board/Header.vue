@@ -11,8 +11,8 @@ export default {
   props: {
     botTitle: {
       type: String,
-      default: 'Chatbot'
-    }
-  }
+      default: 'Chatbot',
+    },
+  },
 }
 </script>

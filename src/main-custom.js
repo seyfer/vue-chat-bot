@@ -1,18 +1,14 @@
-import Vue from 'vue'
-import vueCustomElement from 'vue-custom-element'
-// import VueChatBot from '@/components/BotUI.vue'
-import VueChatBot from '@/App.vue'
+import { defineCustomElement } from 'vue'
+import App from '@/App.vue'
 
-// Needed to support the custom element in older browsers
-import 'document-register-element'
+const OskChatBot = defineCustomElement(App)
 
-Vue.use(vueCustomElement)
+customElements.define('osk-chatbot', OskChatBot)
 
-Vue.customElement('osk-chatbot', VueChatBot)
-
-// Create and mount the component to the custom element
-// eslint-disable-next-line no-new
-new Vue({
-  el: 'osk-chatbot',
-  render: h => h(VueChatBot)
-})
+// // Create Vue 3 app
+// const app = createApp({
+//   render: () => h(App),
+// });
+//
+// // Mount Vue 3 app
+// app.mount('osk-chatbot');

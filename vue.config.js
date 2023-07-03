@@ -6,19 +6,21 @@ module.exports = {
     extract: false
   },
   chainWebpack: (config) => {
-    const svgRule = config.module.rule('svg')
+    // this will pack Vue into the built library file
+    config.externals.vue = false;
 
-    svgRule.uses.clear()
-
-    svgRule
-      .use('babel-loader')
-      .loader('babel-loader')
-      .end()
-      .use('vue-svg-loader')
-      .loader('vue-svg-loader')
+    config.module
+      .rule('vue')
+      .use('vue-loader')
+      .tap(options => ({
+        ...options,
+        compilerOptions: {
+          // treat any tag that starts with osk- as custom elements
+          isCustomElement: tag => tag.startsWith('osk-'),
+        }
+      }))
   },
   productionSourceMap: false,
-  // this will pack Vue into the built library file
   configureWebpack: {
     externals: {
       // exclude Vue from externals

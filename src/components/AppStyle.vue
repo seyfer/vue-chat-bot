@@ -1,5 +1,5 @@
 <template>
-  <div class="qkb-bot-style" v-html="style" style="display: none"></div>
+  <div class="qkb-bot-style" style="display: none" v-html="style"></div>
 </template>
 
 <script>
@@ -22,7 +22,7 @@ export default {
         msgBubbleBgBot,
         msgBubbleColorBot,
         msgBubbleBgUser,
-        msgBubbleColorUser
+        msgBubbleColorUser,
       } = this.options
 
       const styles = `
@@ -49,15 +49,15 @@ export default {
   background-color: ${boardContentBg};
 }
 ${botAvatarImg
-    ? `.qkb-msg-avatar {
+        ? `.qkb-msg-avatar {
       width: ${botAvatarSize}px;
       height: ${botAvatarSize}px;
     }
     .qkb-msg-avatar__img {
       background-image: url(${botAvatarImg});
     }`
-    : ''
-}
+        : ''
+      }
 .qkb-msg-bubble--bot .qkb-msg-bubble-component__text {
   color: ${msgBubbleColorBot};
   background-color: ${msgBubbleBgBot};
@@ -88,7 +88,7 @@ ${botAvatarImg
 </style>
       `
       return styles
-    }
-  }
+    },
+  },
 }
 </script>

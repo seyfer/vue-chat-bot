@@ -1,26 +1,28 @@
 <template>
   <div class="qkb-msg-bubble-component qkb-msg-bubble-component--button-options">
-    <div class="qkb-msg-bubble-component__text" v-if="mainData.type === 'text'">{{ mainData.text }}</div>
-    <div class="qkb-msg-bubble-component__text" v-if="['html', 'button'].includes(mainData.type)" v-html="mainData.text"></div>
+    <div v-if="mainData.type === 'text'" class="qkb-msg-bubble-component__text">{{ mainData.text }}</div>
+    <div v-if="['html', 'button'].includes(mainData.type)"
+         class="qkb-msg-bubble-component__text"
+         v-html="mainData.text"></div>
     <div class="qkb-msg-bubble-component__options-wrapper">
       <div
-        class="qkb-mb-button-options__item"
         v-for="(item, index) in mainData.options"
-        :class="{ active: selectedItem === item.value }"
         :key="index"
+        :class="{ active: selectedItem === item.value }"
+        class="qkb-mb-button-options__item"
       >
         <button
-          class="qkb-mb-button-options__btn"
           v-if="item.action === 'postback'"
+          class="qkb-mb-button-options__btn"
           @click="selectOption(item)"
         >
           <span>{{ item.text }}</span>
         </button>
         <a
-          class="qkb-mb-button-options__btn qkb-mb-button-options__url"
-          target="_blank"
           v-else
           :href="item.value"
+          class="qkb-mb-button-options__btn qkb-mb-button-options__url"
+          target="_blank"
         >
           <span>{{ item.text }}</span>
         </a>
@@ -35,21 +37,21 @@ import EventBus from '../../helpers/event-bus'
 export default {
   props: {
     mainData: {
-      type: Object
-    }
+      type: Object,
+    },
   },
 
   data () {
     return {
-      selectedItem: null
+      selectedItem: null,
     }
   },
 
   methods: {
     selectOption (value) {
       this.selectedItem = value
-      EventBus.$emit('select-button-option', value)
-    }
-  }
+      EventBus.emit('select-button-option', value)
+    },
+  },
 }
 </script>

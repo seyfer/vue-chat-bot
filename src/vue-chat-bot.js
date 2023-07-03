@@ -9,7 +9,7 @@ const Plugin = {
     }
 
     // Vue.customElement('chat-bot', VueChatBot)
-  }
+  },
 }
 
 export default Plugin
