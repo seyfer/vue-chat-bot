@@ -7,6 +7,9 @@ module.exports = {
     'plugin:vue/vue3-essential',
     'eslint:recommended'
   ],
+  parserOptions: {
+    ecmaVersion: 13,
+  },
   rules: {
     'max-len': ['error', {
       code: 120,
@@ -37,18 +40,15 @@ module.exports = {
     '@typescript-eslint/ban-types': 'off',
     'vue/multi-word-component-names': 'off',
   },
-  parserOptions: {
-    ecmaVersion: 13,
-  },
   overrides: [
     {
       files: [
         '**/__tests__/*.{j,t}s?(x)',
-        '**/tests/unit/**/*.spec.{j,t}s?(x)',
+        '**/tests/unit/**/*.spec.{j,t}s?(x)'
       ],
       env: {
-        jest: true,
-      },
+        jest: true
+      }
     },
   ],
 }

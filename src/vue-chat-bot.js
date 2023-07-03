@@ -7,8 +7,6 @@ const Plugin = {
     if (typeof window !== 'undefined' && window.Vue) {
       window.Vue.use(Plugin)
     }
-
-    // Vue.customElement('chat-bot', VueChatBot)
   },
 }
 

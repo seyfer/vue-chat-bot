@@ -1,9 +1,19 @@
 {
   "name": "vue-chat-bot",
-  "version": "1.0.13",
-  "description": "Chatbot UI using Vue.js 2",
+  "version": "2.0.0",
+  "description": "Chatbot UI using Vue.js 3",
   "author": {
-    "name": "Chea Bonnak"
+    "name": "Oleg Abrazhaev"
+  },
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build --dest demo",
+    "test:unit": "vue-cli-service test:unit",
+    "lint": "vue-cli-service lint --fix",
+    "build-bundle-custom": "vue-cli-service build --target lib --inline-vue --name osk-chat-bot ./src/main-custom.js",
+    "build-bundle-wc": "vue-cli-service build --target wc --inline-vue --name osk-chat-bot ./src/App.vue",
+    "release": "standard-version && git push --follow-tags",
+    "release:next": "standard-version --prerelease next && git push --follow-tags origin dev && npm publish --tag next"
   },
   "main": "dist/vue-chat-bot.common.js",
   "files": [
@@ -11,20 +21,16 @@
     "src/*",
     "package.json"
   ],
-  "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build --dest demo",
-    "build-bundle": "vue-cli-service build --target lib --name vue-chat-bot ./src/vue-chat-bot.js",
-    "build-bundle-custom": "vue-cli-service build --target lib --name osk-chat-bot ./src/main-custom.js",
-    "release": "standard-version && git push --follow-tags",
-    "release:next": "standard-version --prerelease next && git push --follow-tags origin dev && npm publish --tag next",
-    "lint": "vue-cli-service lint --fix"
+  "dependencies": {
+    "bootstrap": "^5.3.0",
+    "core-js": "^3.31.0",
+    "mitt": "^3.0.0",
+    "sass": "^1.63.6",
+    "sass-loader": "^13.3.2",
+    "vue": "^3.3.4",
+    "vue-custom-element": "^3.3.0",
+    "vue-loader": "^17.2.2"
   },
-  "keywords": [
-    "chatbot",
-    "bot ui",
-    "vue-chat-bot"
-  ],
   "devDependencies": {
     "@babel/core": "^7.22.5",
     "@babel/eslint-parser": "^7.22.5",
@@ -33,40 +39,35 @@
     "@types/jest": "^29.5.2",
     "@vue/cli-plugin-babel": "^5.0.8",
     "@vue/cli-plugin-eslint": "^5.0.8",
-    "@vue/cli-plugin-unit-jest": "^5.0.8",
+    "@vue/cli-plugin-unit-jest": "~5.0.0",
     "@vue/cli-service": "^5.0.8",
     "@vue/compiler-sfc": "^3.3.4",
     "@vue/eslint-config-standard": "^8.0.1",
     "@vue/test-utils": "^2.4.0",
-    "@vue/vue2-jest": "^29.2.4",
+    "@vue/vue3-jest": "^27.0.0-alpha.1",
+    "babel-jest": "^27.0.6",
     "eslint": "^8.44.0",
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^6.1.1",
     "eslint-plugin-vue": "^9.15.1",
-    "jest": "^29.5.0",
+    "jest": "^27.0.5",
     "standard-version": "^9.5.0"
-  },
-  "dependencies": {
-    "bootstrap": "^5.3.0",
-    "core-js": "^3.31.0",
-    "document-register-element": "^1.14.10",
-    "mitt": "^3.0.0",
-    "sass": "^1.63.6",
-    "sass-loader": "^13.3.2",
-    "vue": "^3.3.4",
-    "vue-custom-element": "^3.3.0",
-    "vue-loader": "^17.2.2"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/bonnak/vue-chat-bot.git"
   },
   "bugs": {
     "url": "https://github.com/bonnak/vue-chat-bot/issues"
   },
   "homepage": "https://github.com/bonnak/vue-chat-bot#readme",
+  "keywords": [
+    "chatbot",
+    "bot ui",
+    "vue-chat-bot"
+  ],
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bonnak/vue-chat-bot.git"
+  },
   "volta": {
     "node": "16.14.0",
     "yarn": "1.22.19"
