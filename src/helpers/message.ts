@@ -5,6 +5,7 @@ export const messageService = {
 }
 
 function createMessage () {
+  // eslint-disable-next-line no-unused-vars
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       const randomNumber = Math.floor(Math.random() * fakeMessages.length)

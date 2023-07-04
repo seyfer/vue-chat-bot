@@ -1,15 +1,21 @@
 module.exports = {
   root: true,
+
   env: {
     node: true,
   },
+
   extends: [
     'plugin:vue/vue3-essential',
-    'eslint:recommended'
+    'eslint:recommended',
+    '@vue/typescript',
   ],
+
   parserOptions: {
     ecmaVersion: 13,
+    parser: '@typescript-eslint/parser',
   },
+
   rules: {
     'max-len': ['error', {
       code: 120,
@@ -40,15 +46,16 @@ module.exports = {
     '@typescript-eslint/ban-types': 'off',
     'vue/multi-word-component-names': 'off',
   },
+
   overrides: [
     {
       files: [
         '**/__tests__/*.{j,t}s?(x)',
-        '**/tests/unit/**/*.spec.{j,t}s?(x)'
+        '**/tests/unit/**/*.spec.{j,t}s?(x)',
       ],
       env: {
-        jest: true
-      }
+        jest: true,
+      },
     },
   ],
 }

@@ -43,7 +43,7 @@ export default {
 
   watch: {
     mainData: {
-      handler: function (newVal) {
+      handler: function () {
         this.$nextTick(() => {
           this.updateScroll()
         })

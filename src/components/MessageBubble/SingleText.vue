@@ -6,12 +6,20 @@
   </div>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import { defineComponent, PropType } from 'vue';
+
+interface MainData {
+  type: string;
+  text: string;
+}
+
+export default defineComponent({
   props: {
     mainData: {
-      type: Object,
+      type: Object as PropType<MainData>,
+      required: true,
     },
   },
-}
+});
 </script>
