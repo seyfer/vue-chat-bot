@@ -2,13 +2,34 @@
   <div class="qkb-bot-style" style="display: none" v-html="style"></div>
 </template>
 
-<script>
-export default {
-  props: ['options'],
-  computed: {
-    style () {
-      if (!this.options) {
-        return ''
+<script lang="ts">
+import { defineComponent, computed, PropType } from 'vue';
+
+interface Options {
+  colorScheme?: string;
+  textColor?: string;
+  boardContentBg?: string;
+  bubbleBtnSize?: number;
+  botAvatarImg?: string;
+  botAvatarSize?: number;
+  inputDisableBg?: string;
+  msgBubbleBgBot?: string;
+  msgBubbleColorBot?: string;
+  msgBubbleBgUser?: string;
+  msgBubbleColorUser?: string;
+}
+
+export default defineComponent({
+  props: {
+    options: {
+      type: Object as PropType<Options>,
+      default: () => ({}),
+    },
+  },
+  setup(props) {
+    const style = computed(() => {
+      if (!props.options) {
+        return '';
       }
 
       const {
@@ -23,7 +44,7 @@ export default {
         msgBubbleColorBot,
         msgBubbleBgUser,
         msgBubbleColorUser,
-      } = this.options
+      } = props.options;
 
       const styles = `
 <style type="text/css" id="qkb-bot-style">
@@ -37,6 +58,7 @@ export default {
   color: ${textColor};
 }
 .qkb-board {
+  /* no error here */
   bottom: ${bubbleBtnSize}px;
 }
 .qkb-board-header {
@@ -86,9 +108,11 @@ ${botAvatarImg
   background-color: ${inputDisableBg};
 }
 </style>
-      `
-      return styles
-    },
+      `;
+      return styles;
+    });
+
+    return { style };
   },
-}
+});
 </script>

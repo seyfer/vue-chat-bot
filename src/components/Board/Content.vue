@@ -1,6 +1,6 @@
 <template>
-  <div ref="boardContent" class="qkb-board-content">
-    <div ref="boardBubbles" class="qkb-board-content__bubbles">
+  <div ref="boardContentRef" class="qkb-board-content">
+    <div ref="boardBubblesRef" class="qkb-board-content__bubbles">
       <message-bubble
         v-for="(item, index) in mainData"
         :key="index"
@@ -15,50 +15,55 @@
   </div>
 </template>
 
-<script>
-import MessageBubble from '../MessageBubble/Main'
-import MessageTyping from '../MessageBubble/Typing'
+<script lang="ts">
+import { defineComponent, ref, watch, onMounted, PropType, nextTick } from 'vue';
+import MessageBubble from '../MessageBubble/Main.vue'
+import MessageTyping from '../MessageBubble/Typing.vue'
 
-export default {
+export default defineComponent({
   components: {
     MessageBubble,
     MessageTyping,
   },
-
   props: {
     mainData: {
-      type: Array,
+      type: Array as PropType<Array<any>>,
       required: true,
     },
-
     botTyping: {
       type: Boolean,
       default: false,
     },
   },
+  setup(props) {
+    const boardContentRef = ref<HTMLElement | null>(null);
+    const boardBubblesRef = ref<HTMLElement | null>(null);
 
-  mounted () {
-    this.updateScroll()
-  },
-
-  watch: {
-    mainData: {
-      handler: function () {
-        this.$nextTick(() => {
-          this.updateScroll()
-        })
+    watch(
+      () => props.mainData,
+      () => {
+        nextTick(() => {
+          updateScroll();
+        });
       },
-      deep: true
-    },
-  },
+      { deep: true }
+    );
 
-  methods: {
-    updateScroll () {
-      const contentElm = this.$refs.boardContent
-      const offsetHeight = this.$refs.boardBubbles.offsetHeight
+    onMounted(updateScroll);
 
-      contentElm.scrollTop = offsetHeight
-    },
+    function updateScroll() {
+      const contentElm = boardContentRef.value;
+      const offsetHeight = boardBubblesRef.value?.offsetHeight;
+
+      if (contentElm && offsetHeight) {
+        contentElm.scrollTop = offsetHeight;
+      }
+    }
+
+    return {
+      boardContentRef,
+      boardBubblesRef,
+    }
   },
-}
+});
 </script>

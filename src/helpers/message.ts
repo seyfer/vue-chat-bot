@@ -1,10 +1,10 @@
-import { fakeMessages } from './fake-messages'
+import { fakeMessages, Message } from './fake-messages'
 
 export const messageService = {
   createMessage,
 }
 
-function createMessage () {
+function createMessage (): Promise<Message> {
   // eslint-disable-next-line no-unused-vars
   return new Promise((resolve, reject) => {
     setTimeout(() => {

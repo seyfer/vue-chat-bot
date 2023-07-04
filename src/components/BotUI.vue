@@ -33,130 +33,129 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { computed, defineComponent, onBeforeUnmount, onMounted, PropType, ref } from 'vue';
 import EventBus from '../helpers/event-bus'
-import BoardHeader from './Board/Header'
-import BoardContent from './Board/Content'
-import BoardAction from './Board/Action'
-import AppStyle from './AppStyle'
+import BoardHeader from './Board/Header.vue'
+import BoardContent from './Board/Content.vue'
+import BoardAction from './Board/Action.vue'
+import AppStyle from './AppStyle.vue'
 
-export default {
+interface Options {
+  botTitle?: string;
+  colorScheme?: string;
+  textColor?: string;
+  bubbleBtnSize?: number;
+  animation?: boolean;
+  boardContentBg?: string;
+  botAvatarSize?: number;
+  botAvatarImg?: string;
+  msgBubbleBgBot?: string;
+  msgBubbleColorBot?: string;
+  msgBubbleBgUser?: string;
+  msgBubbleColorUser?: string;
+  inputPlaceholder?: string;
+  inputDisableBg?: string;
+  inputDisablePlaceholder?: string;
+}
+
+interface Message {
+}
+
+export default defineComponent({
   name: 'VueBotUI',
-
   components: {
     BoardHeader,
     BoardContent,
     BoardAction,
     AppStyle,
   },
-
   props: {
     options: {
-      type: Object,
-      default: () => {
-        return {}
-      },
+      type: Object as PropType<Options>,
+      default: () => ({}),
     },
-
     messages: {
-      type: Array,
+      type: Array as PropType<Message[]>,
+      default: () => ([]),
     },
-
     botTyping: {
       type: Boolean,
       default: false,
     },
-
     inputDisable: {
       type: Boolean,
       default: false,
     },
-
     isOpen: {
       type: Boolean,
       default: false,
     },
   },
+  setup(props, { emit }) {
+    const botActive = ref(props.isOpen);
+    const defaultOptions: Options = {
+      botTitle: 'Chatbot',
+      colorScheme: '#1b53d0',
+      textColor: '#fff',
+      bubbleBtnSize: 56,
+      animation: true,
+      boardContentBg: '#fff',
+      botAvatarSize: 32,
+      botAvatarImg: 'http://placehold.it/200x200',
+      msgBubbleBgBot: '#f0f0f0',
+      msgBubbleColorBot: '#000',
+      msgBubbleBgUser: '#4356e0',
+      msgBubbleColorUser: '#fff',
+      inputPlaceholder: 'Message',
+      inputDisableBg: '#fff',
+      inputDisablePlaceholder: undefined,
+    };
 
-  data () {
-    return {
-      botActive: false,
-      defaultOptions: {
-        botTitle: 'Chatbot',
-        colorScheme: '#1b53d0',
-        textColor: '#fff',
-        bubbleBtnSize: 56,
-        animation: true,
-        boardContentBg: '#fff',
-        botAvatarSize: 32,
-        botAvatarImg: 'http://placehold.it/200x200',
-        msgBubbleBgBot: '#f0f0f0',
-        msgBubbleColorBot: '#000',
-        msgBubbleBgUser: '#4356e0',
-        msgBubbleColorUser: '#fff',
-        inputPlaceholder: 'Message',
-        inputDisableBg: '#fff',
-        inputDisablePlaceholder: null,
-      },
-    }
-  },
+    const optionsMain = computed(() => ({ ...defaultOptions, ...props.options }));
 
-  computed: {
-    optionsMain () {
-      return { ...this.defaultOptions, ...this.options }
-    },
+    const uiClasses = computed(() => {
+      const classes = [];
 
-    // Add class to bot ui wrapper
-    uiClasses () {
-      const classes = []
-
-      if (this.optionsMain.animation) {
-        classes.push('qkb-bot-ui--animate')
+      if (optionsMain.value.animation) {
+        classes.push('qkb-bot-ui--animate');
       }
 
-      return classes
-    },
-  },
+      return classes;
+    });
 
-  created () {
-    this.initBot()
-  },
-
-  mounted () {
-    EventBus.on('select-button-option', this.selectOption)
-  },
-
-  beforeUnmount () {
-    EventBus.off('select-button-option')
-  },
-
-  methods: {
-    initBot () {
-      if (this.isOpen) {
-        this.botActive = true
+    onMounted(() => {
+      EventBus.on('select-button-option', selectOption);
+      if (props.isOpen) {
+        botActive.value = true;
       }
+      emit('init');
+    });
 
-      this.$emit('init')
-    },
+    onBeforeUnmount(() => {
+      EventBus.off('select-button-option');
+    });
 
-    botToggle () {
-      this.botActive = !this.botActive
+    const botToggle = () => {
+      botActive.value = !botActive.value;
 
-      if (this.botActive) {
-        this.$emit('open')
+      if (botActive.value) {
+        emit('open');
       } else {
-        // EventBus.$off('select-button-option')
-        this.$emit('destroy')
+        emit('destroy');
       }
-    },
+    };
 
-    sendMessage (value) {
-      this.$emit('msg-send', value)
-    },
+    const sendMessage = (value: any) => {
+      emit('msg-send', value);
+    };
 
-    selectOption (value) {
-      this.$emit('msg-send', value)
-    },
+    const selectOption = (value: any) => {
+      emit('msg-send', value);
+    };
+
+    return { uiClasses, botActive, optionsMain, botToggle, sendMessage };
   },
-}
+});
 </script>
+

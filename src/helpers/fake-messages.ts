@@ -1,4 +1,18 @@
-export const fakeMessages = [
+export interface Option {
+  text: string;
+  value: string;
+  action: 'postback' | 'url';
+}
+
+export interface Message {
+  agent?: string,
+  type: 'text' | 'button';
+  text: string;
+  options?: Option[];
+  disableInput?: boolean;
+}
+
+export const fakeMessages: Message[] = [
   {
     type: 'text',
     text: 'Hello. Have a nice day!',

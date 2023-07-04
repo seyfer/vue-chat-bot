@@ -30,58 +30,60 @@
   </div>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import { defineComponent, ref, computed, onMounted, PropType } from 'vue';
+
+export default defineComponent({
   props: {
     inputPlaceholder: {
-      type: String,
+      type: String as PropType<string>,
     },
-
     inputDisablePlaceholder: {
-      type: String,
+      type: String as PropType<string>,
     },
-
     inputDisable: {
-      type: Boolean,
+      type: Boolean as PropType<boolean>,
       default: false,
     },
   },
+  setup(props, { emit }) {
+    const messageText = ref<string | null>(null);
+    // Declare a ref to the input element
+    const qkbMessageInput = ref<HTMLElement | null>(null);
 
-  data () {
-    return {
-      messageText: null,
-    }
-  },
+    const actionClass = computed(() => {
+      const actionClasses = [];
 
-  computed: {
-    actionClass () {
-      const actionClasses = []
-
-      if (this.inputDisable) {
-        actionClasses.push('qkb-board-action--disabled')
+      if (props.inputDisable) {
+        actionClasses.push('qkb-board-action--disabled');
       }
 
-      if (this.messageText) {
-        actionClasses.push('qkb-board-aciton--typing')
+      if (messageText.value) {
+        actionClasses.push('qkb-board-aciton--typing');
       }
 
       // TODO: sending
 
-      return actionClasses
-    },
-  },
+      return actionClasses;
+    });
 
-  mounted () {
-    this.$refs.qkbMessageInput.focus()
-  },
+    onMounted(() => {
+      qkbMessageInput.value?.focus();
+    });
 
-  methods: {
-    sendMessage () {
-      if (this.messageText) {
-        this.$emit('msg-send', { text: this.messageText })
-        this.messageText = null
+    const sendMessage = () => {
+      if (messageText.value) {
+        emit('msg-send', { text: messageText.value });
+        messageText.value = null;
       }
-    },
+    };
+
+    return {
+      qkbMessageInput,
+      messageText,
+      actionClass,
+      sendMessage,
+    };
   },
-}
+});
 </script>

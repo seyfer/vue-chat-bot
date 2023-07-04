@@ -8,34 +8,39 @@
   </div>
 </template>
 
-<script>
-import SingleText from './SingleText'
-import ButtonOptions from './ButtonOptions'
+<script lang="ts">
+import { computed, defineComponent, PropType } from 'vue';
+import SingleText from './SingleText.vue'
+import ButtonOptions from './ButtonOptions.vue'
 
-export default {
+interface Message {
+  agent: string;
+  createdAt: string;
+  type: string;
+}
+
+export default defineComponent({
   components: {
     SingleText,
     ButtonOptions,
   },
-
   props: {
     message: {
-      type: Object,
+      type: Object as PropType<Message>,
+      required: true,
     },
   },
-
-  computed: {
-    bubbleClass () {
-      return this.message.agent === 'bot'
+  setup(props) {
+    const bubbleClass = computed(() => {
+      return props.message.agent === 'bot'
         ? 'qkb-msg-bubble--bot'
         : 'qkb-msg-bubble--user'
-    },
+    });
 
-    // Define the message type and return the specific component
-    componentType () {
+    const componentType = computed(() => {
       let type = ''
 
-      switch (this.message.type) {
+      switch (props.message.type) {
         case 'button':
           type = 'ButtonOptions'
           break
@@ -44,7 +49,9 @@ export default {
       }
 
       return type
-    },
+    });
+
+    return { bubbleClass, componentType };
   },
-}
+})
 </script>

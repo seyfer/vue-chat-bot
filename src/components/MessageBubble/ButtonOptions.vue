@@ -8,7 +8,7 @@
       <div
         v-for="(item, index) in mainData.options"
         :key="index"
-        :class="{ active: selectedItem === item.value }"
+        :class="{ active: selectedItem?.value === item.value }"
         class="qkb-mb-button-options__item"
       >
         <button
@@ -31,27 +31,42 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { ref, defineComponent, PropType } from 'vue'
 import EventBus from '../../helpers/event-bus'
 
-export default {
+interface Option {
+  action: string;
+  text: string;
+  value: string;
+}
+
+interface MainData {
+  type: string;
+  text: string;
+  options: Option[];
+}
+
+export default defineComponent({
   props: {
     mainData: {
-      type: Object,
+      type: Object as PropType<MainData>,
+      required: true,
     },
   },
 
-  data () {
+  setup() {
+    const selectedItem = ref<Option | null>(null)
+
+    const selectOption = (value: Option) => {
+      selectedItem.value = value
+      EventBus.emit('select-button-option', value)
+    }
+
     return {
-      selectedItem: null,
+      selectedItem,
+      selectOption,
     }
   },
-
-  methods: {
-    selectOption (value) {
-      this.selectedItem = value
-      EventBus.emit('select-button-option', value)
-    },
-  },
-}
+})
 </script>

@@ -12,87 +12,80 @@
     />
   </div>
 </template>
-<script>
-import BotIcon from './assets/icons/bot.png'
-import { VueChatBot } from './vue-chat-bot'
-import { messageService } from './helpers/message'
 
-export default {
+<script lang="ts">
+import { defineComponent, ref } from 'vue';
+// @ts-ignore
+import BotIcon from './assets/icons/bot.png';
+import { VueChatBot } from './vue-chat-bot';
+import { messageService } from './helpers/message';
+import { Message } from "@/helpers/fake-messages";
+
+export default defineComponent({
   components: {
-    // eslint-disable-next-line vue/no-unused-components
-    BotIcon,
     VueChatBot,
   },
+  setup() {
+    const messageData = ref<Message[]>([]);
+    const botTyping = ref(false);
+    const inputDisable = ref(false);
+    const botOptions = ref({
+      botAvatarImg: BotIcon,
+      boardContentBg: '#f4f4f4',
+      msgBubbleBgBot: '#fff',
+      inputPlaceholder: 'Type here...',
+      inputDisableBg: '#fff',
+      inputDisablePlaceholder: 'Hit the buttons above to respond',
+    });
 
-  data () {
-    return {
-      messageData: [],
-      botTyping: false,
-      inputDisable: false,
-      botOptions: {
-        botAvatarImg: BotIcon,
-        boardContentBg: '#f4f4f4',
-        msgBubbleBgBot: '#fff',
-        inputPlaceholder: 'Type here...',
-        inputDisableBg: '#fff',
-        inputDisablePlaceholder: 'Hit the buttons above to respond',
-      },
-    }
-  },
-
-  methods: {
-    botStart () {
-      // Get token if you want to build a private bot
-      // Request first message here
-
-      // Fake typing for the first message
-      this.botTyping = true
+    const botStart = () => {
+      botTyping.value = true;
       setTimeout(() => {
-        this.botTyping = false
-        this.messageData.push({
+        botTyping.value = false;
+        messageData.value.push({
           agent: 'bot',
           type: 'text',
           text: 'Hello',
-        })
-      }, 1000)
-    },
+        });
+      }, 1000);
+    };
 
-    msgSend (value) {
-      // Push the user's message to board
-      this.messageData.push({
+    const msgSend = (value: Message) => {
+      messageData.value.push({
         agent: 'user',
         type: 'text',
         text: value.text,
-      })
+      });
 
-      this.getResponse()
-    },
+      getResponse();
+    };
 
-    // Submit the message from user to bot API, then get the response from Bot
-    getResponse () {
-      // Loading
-      this.botTyping = true
+    const getResponse = () => {
+      botTyping.value = true;
 
-      // Post the message from user here
-      // Then get the response as below
+      messageService.createMessage().then((response: Message) => {
+        const replyMessage: Message = {
+          ...response,
+          agent: 'bot',
+        };
 
-      // Create new message from fake data
-      messageService.createMessage()
-        .then((response) => {
-          const replyMessage = {
-            agent: 'bot',
-            ...response,
-          }
+        inputDisable.value = !!response.disableInput;
+        messageData.value.push(replyMessage);
 
-          this.inputDisable = response.disableInput
-          this.messageData.push(replyMessage)
+        botTyping.value = false;
+      });
+    };
 
-          // finish
-          this.botTyping = false
-        })
-    },
+    return {
+      messageData,
+      botTyping,
+      inputDisable,
+      botOptions,
+      botStart,
+      msgSend,
+    };
   },
-}
+});
 </script>
 
 <style lang="scss" src="@/assets/scss/_app.scss"></style>
