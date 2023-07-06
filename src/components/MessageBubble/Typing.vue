@@ -1,9 +1,14 @@
-<template lang="pug">
-.qkb-msg-bubble.qkb-msg-bubble--bot
-  .qkb-msg-avatar
-    .qkb-msg-avatar__img &nbsp;
-  .qkb-msg-bubble-component.qkb-msg-bubble-component--typing
-    .qkb-msg-bubble-component__text
-      .qkb-msg-bubble__typing-indicator
-        span
+<template>
+  <div class="osk-msg-bubble osk-msg-bubble--bot">
+    <div class="osk-msg-avatar">
+      <div class="osk-msg-avatar__img">&nbsp;</div>
+    </div>
+    <div class="osk-msg-bubble-component osk-msg-bubble-component--typing">
+      <div class="osk-msg-bubble-component__text">
+        <div class="osk-msg-bubble__typing-indicator">
+          <span></span>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>

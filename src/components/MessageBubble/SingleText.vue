@@ -1,14 +1,21 @@
-<template lang="pug">
-.qkb-msg-bubble-component.qkb-msg-bubble-component--single-text
-  .qkb-msg-bubble-component__text(v-if="mainData.type === 'text'") {{ mainData.text }}
-  .qkb-msg-bubble-component__text(v-if="['html', 'button'].includes(mainData.type)" v-html="mainData.text")
+<template>
+  <div class="osk-msg-bubble-component osk-msg-bubble-component--single-text">
+    <div v-if="mainData.type === 'text'" class="osk-msg-bubble-component__text">{{ mainData.text }}</div>
+    <div v-if="['html', 'button'].includes(mainData.type)" class="osk-msg-bubble-component__text"
+         v-html="mainData.text"></div>
+  </div>
 </template>
-<script>
-export default {
+
+<script lang="ts">
+import { defineComponent, PropType } from 'vue';
+import { Message } from "@/helpers/message";
+
+export default defineComponent({
   props: {
     mainData: {
-      type: Object
-    }
-  }
-}
+      type: Object as PropType<Message>,
+      required: true,
+    },
+  },
+});
 </script>

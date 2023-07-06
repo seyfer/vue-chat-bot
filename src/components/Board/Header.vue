@@ -1,15 +1,21 @@
-<template lang="pug">
-.qkb-board-header
-  slot(name="header")
-    .qkb-board-header__title {{ botTitle }}
+<template>
+  <div class="osk-board-header">
+    <slot name="header">
+      <div class="osk-board-header__title">{{ botTitle }}</div>
+    </slot>
+  </div>
 </template>
-<script>
-export default {
+
+<script lang="ts">
+import { defineComponent, PropType } from 'vue';
+
+export default defineComponent({
   props: {
     botTitle: {
-      type: String,
-      default: 'Chatbot'
-    }
-  }
-}
+      type: String as PropType<string>,
+
+      default: 'Chatbot',
+    },
+  },
+});
 </script>

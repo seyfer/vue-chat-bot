@@ -1,59 +1,69 @@
-<template lang="pug">
-.qkb-board-content(ref="boardContent")
-  .qkb-board-content__bubbles(
-    ref="boardBubbles"
-  )
-    message-bubble(
-      v-for="(item, index) in mainData",
-      :key="index",
-      :message="item",
-    )
-    .qkb-board-content__bot-typing(v-if="botTyping")
-      slot(name="botTyping")
-        message-typing
+<template>
+  <div ref="boardContentRef" class="osk-board-content">
+    <div ref="boardBubblesRef" class="osk-board-content__bubbles">
+      <message-bubble
+        v-for="(item, index) in mainData"
+        :key="index"
+        :message="item"
+      ></message-bubble>
+      <div v-if="botTyping" class="osk-board-content__bot-typing">
+        <slot name="botTyping">
+          <message-typing></message-typing>
+        </slot>
+      </div>
+    </div>
+  </div>
 </template>
 
-<script>
-import MessageBubble from '../MessageBubble/Main'
-import MessageTyping from '../MessageBubble/Typing'
+<script lang="ts">
+import { defineComponent, ref, watch, onMounted, PropType, nextTick } from 'vue';
+import MessageBubble from '../MessageBubble/Main.vue'
+import MessageTyping from '../MessageBubble/Typing.vue'
 
-export default {
+export default defineComponent({
   components: {
     MessageBubble,
-    MessageTyping
+    MessageTyping,
   },
-
   props: {
     mainData: {
-      type: Array,
-      required: true
+      type: Array as PropType<Array<any>>,
+      required: true,
     },
-
     botTyping: {
       type: Boolean,
-      default: false
+      default: false,
+    },
+  },
+  setup(props) {
+    const boardContentRef = ref<HTMLElement | null>(null);
+    const boardBubblesRef = ref<HTMLElement | null>(null);
+
+    watch(
+      () => props.mainData,
+      () => {
+        nextTick(() => {
+          updateScroll();
+        });
+      },
+      { deep: true }
+    );
+
+    onMounted(updateScroll);
+
+    function updateScroll() {
+      const contentElm = boardContentRef.value;
+      const offsetHeight = boardBubblesRef.value?.offsetHeight;
+
+      if (contentElm && offsetHeight) {
+        contentElm.scrollTop = offsetHeight;
+      }
+    }
+
+    return {
+      boardContentRef,
+      boardBubblesRef,
     }
   },
-
-  mounted () {
-    this.updateScroll()
-  },
-
-  watch: {
-    mainData: function (newVal) {
-      this.$nextTick(() => {
-        this.updateScroll()
-      })
-    }
-  },
-
-  methods: {
-    updateScroll () {
-      const contentElm = this.$refs.boardContent
-      const offsetHeight = this.$refs.boardBubbles.offsetHeight
-
-      contentElm.scrollTop = offsetHeight
-    }
-  }
-}
+});
 </script>

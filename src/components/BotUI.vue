@@ -1,171 +1,170 @@
-<template lang="pug">
-.qkb-bot-ui(
-  :class="uiClasses"
-)
-  transition(name="qkb-fadeUp")
-    .qkb-board(v-if="botActive")
-      BoardHeader(
-        :bot-title="optionsMain.botTitle",
-        @close-bot="botToggle"
-      )
-        template(v-slot:header)
-          slot(name="header")
-      BoardContent(
-        :bot-typing="botTyping",
-        :main-data="messages"
-      )
-      BoardAction(
-        :input-disable="inputDisable",
-        :input-placeholder="optionsMain.inputPlaceholder",
-        :input-disable-placeholder="optionsMain.inputDisablePlaceholder",
-        @msg-send="sendMessage"
-      )
-  .qkb-bot-bubble
-    button.qkb-bubble-btn(
-      @click="botToggle"
-    )
-      slot(name="bubbleButton")
-        transition(name="qkb-scaleUp")
-          BubbleIcon.qkb-bubble-btn-icon(
-            v-if="!botActive",
-            key="1"
-          )
-          CloseIcon.qkb-bubble-btn-icon.qkb-bubble-btn-icon--close(
-            v-else,
-            key="2"
-          )
-  AppStyle(:options="optionsMain")
-  .qkb-preload-image
-    .qkb-msg-avatar__img(v-if="optionsMain.botAvatarImg")
+<template>
+  <div :class="uiClasses" class="osk-bot-ui">
+    <transition name="osk-fadeUp">
+      <div v-if="botActive" class="osk-board">
+        <BoardHeader :bot-title="optionsMain.botTitle" @close-bot="botToggle">
+          <template v-slot:header>
+            <slot name="header"></slot>
+          </template>
+        </BoardHeader>
+        <BoardContent :bot-typing="botTyping" :main-data="messages" />
+        <BoardAction
+          :input-disable="inputDisable"
+          :input-disable-placeholder="optionsMain.inputDisablePlaceholder"
+          :input-placeholder="optionsMain.inputPlaceholder"
+          @msg-send="sendMessage"
+        />
+      </div>
+    </transition>
+    <div class="osk-bot-bubble">
+      <button class="osk-bubble-btn" @click="botToggle">
+        <slot name="bubbleButton">
+          <transition name="osk-scaleUp">
+            <img v-if="!botActive"
+                 key="bot-inactive"
+                 class="osk-bubble-btn-icon"
+                 src="@/assets/icons/bubble.svg"
+                 alt="bot-inactive" />
+            <img
+              v-else
+              key="bot-active"
+              class="osk-bubble-btn-icon osk-bubble-btn-icon--close"
+              src="@/assets/icons/close.svg"
+              alt="bot-active" />
+          </transition>
+        </slot>
+      </button>
+    </div>
+
+    <AppStyle :options="optionsMain" />
+
+    <div class="osk-preload-image">
+      <div v-if="optionsMain.botAvatarImg" class="osk-msg-avatar__img"></div>
+    </div>
+  </div>
 </template>
-<script>
+
+<script lang="ts">
+import { computed, defineComponent, onBeforeUnmount, onMounted, PropType, ref } from 'vue';
 import EventBus from '../helpers/event-bus'
-import BoardHeader from './Board/Header'
-import BoardContent from './Board/Content'
-import BoardAction from './Board/Action'
-import AppStyle from './AppStyle'
-import BubbleIcon from '../assets/icons/bubble.svg'
-import CloseIcon from '../assets/icons/close.svg'
+import BoardHeader from './Board/Header.vue'
+import BoardContent from './Board/Content.vue'
+import BoardAction from './Board/Action.vue'
+import AppStyle from './AppStyle.vue'
+import { Message } from "@/helpers/message";
 
-export default {
+interface Options {
+  botTitle?: string;
+  colorScheme?: string;
+  textColor?: string;
+  bubbleBtnSize?: number;
+  animation?: boolean;
+  boardContentBg?: string;
+  botAvatarSize?: number;
+  botAvatarImg?: string;
+  msgBubbleBgBot?: string;
+  msgBubbleColorBot?: string;
+  msgBubbleBgUser?: string;
+  msgBubbleColorUser?: string;
+  inputPlaceholder?: string;
+  inputDisableBg?: string;
+  inputDisablePlaceholder?: string;
+}
+
+export default defineComponent({
   name: 'VueBotUI',
-
   components: {
     BoardHeader,
     BoardContent,
     BoardAction,
-    BubbleIcon,
-    CloseIcon,
-    AppStyle
+    AppStyle,
   },
-
   props: {
     options: {
-      type: Object,
-      default: () => { return {} }
+      type: Object as PropType<Options>,
+      default: () => ({}),
     },
-
     messages: {
-      type: Array
+      type: Array as PropType<Message[]>,
+      default: () => ([]),
     },
-
     botTyping: {
       type: Boolean,
-      default: false
+      default: false,
     },
-
     inputDisable: {
       type: Boolean,
-      default: false
+      default: false,
     },
-
     isOpen: {
       type: Boolean,
-      default: false
-    }
-  },
-
-  data () {
-    return {
-      botActive: false,
-      defaultOptions: {
-        botTitle: 'Chatbot',
-        colorScheme: '#1b53d0',
-        textColor: '#fff',
-        bubbleBtnSize: 56,
-        animation: true,
-        boardContentBg: '#fff',
-        botAvatarSize: 32,
-        botAvatarImg: 'http://placehold.it/200x200',
-        msgBubbleBgBot: '#f0f0f0',
-        msgBubbleColorBot: '#000',
-        msgBubbleBgUser: '#4356e0',
-        msgBubbleColorUser: '#fff',
-        inputPlaceholder: 'Message',
-        inputDisableBg: '#fff',
-        inputDisablePlaceholder: null
-      }
-    }
-  },
-
-  computed: {
-    optionsMain () {
-      return { ...this.defaultOptions, ...this.options }
+      default: false,
     },
+  },
+  setup(props, { emit }) {
+    const botActive = ref(props.isOpen);
+    const defaultOptions: Options = {
+      botTitle: 'Chatbot',
+      colorScheme: '#1b53d0',
+      textColor: '#fff',
+      bubbleBtnSize: 56,
+      animation: true,
+      boardContentBg: '#fff',
+      botAvatarSize: 32,
+      botAvatarImg: 'http://placehold.it/200x200',
+      msgBubbleBgBot: '#f0f0f0',
+      msgBubbleColorBot: '#000',
+      msgBubbleBgUser: '#4356e0',
+      msgBubbleColorUser: '#fff',
+      inputPlaceholder: 'Message',
+      inputDisableBg: '#fff',
+      inputDisablePlaceholder: undefined,
+    };
 
-    // Add class to bot ui wrapper
-    uiClasses () {
-      let classes = []
+    const optionsMain = computed(() => ({ ...defaultOptions, ...props.options }));
 
-      if (this.optionsMain.animation) {
-        classes.push('qkb-bot-ui--animate')
+    const uiClasses = computed(() => {
+      const classes = [];
+
+      if (optionsMain.value.animation) {
+        classes.push('osk-bot-ui--animate');
       }
 
-      return classes
-    }
-  },
+      return classes;
+    });
 
-  created () {
-    this.initBot()
-  },
-
-  mounted () {
-    EventBus.$on('select-button-option', this.selectOption)
-  },
-
-  beforeDestroy () {
-    EventBus.$off('select-button-option')
-  },
-
-  methods: {
-    initBot () {
-      if (this.isOpen) {
-        this.botActive = true
+    onMounted(() => {
+      EventBus.on('select-button-option', selectOption);
+      if (props.isOpen) {
+        botActive.value = true;
       }
+      emit('init');
+    });
 
-      this.$emit('init')
-    },
+    onBeforeUnmount(() => {
+      EventBus.off('select-button-option');
+    });
 
-    botToggle () {
-      this.botActive = !this.botActive
+    const botToggle = () => {
+      botActive.value = !botActive.value;
 
-      if (this.botActive) {
-        this.$emit('open')
+      if (botActive.value) {
+        emit('open');
       } else {
-        // EventBus.$off('select-button-option')
-        this.$emit('destroy')
+        emit('destroy');
       }
-    },
+    };
 
-    sendMessage (value) {
-      this.$emit('msg-send', value)
-    },
+    const sendMessage = (value: any) => {
+      emit('msg-send', value);
+    };
 
-    selectOption (value) {
-      this.$emit('msg-send', value)
-    }
-  }
-}
+    const selectOption = (value: any) => {
+      emit('msg-send', value);
+    };
+
+    return { uiClasses, botActive, optionsMain, botToggle, sendMessage };
+  },
+});
 </script>
 
-<style src="../assets/scss/_app.scss" lang="scss"></style>

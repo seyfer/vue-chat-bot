@@ -1,85 +1,89 @@
-<template lang="pug">
-.qkb-board-action(
-  :class="actionClass"
-)
-  .qkb-board-action__wrapper
-    .qkb-board-action__msg-box
-      input.qkb-board-action__input(
-        type="text",
-        v-model="messageText",
-        ref="qkbMessageInput",
-        :disabled="inputDisable",
-        :placeholder="inputPlaceholder",
-        @keydown.enter="sendMessage",
-      )
-      .qkb-board-action__disable-text(
-        v-if="inputDisablePlaceholder && inputDisable"
-      )
-        span {{ inputDisablePlaceholder }}
-    .qkb-board-action__extra
-      slot(name="actions")
-      button.qkb-action-item.qkb-action-item--send(@click="sendMessage")
-        slot(name="sendButton")
-          IconSend.qkb-action-icon.qkb-action-icon--send
+<template>
+  <div :class="actionClass" class="osk-board-action">
+    <div class="osk-board-action__wrapper">
+      <div class="osk-board-action__msg-box">
+        <input
+          ref="oskMessageInput"
+          v-model="messageText"
+          :disabled="inputDisable"
+          :placeholder="inputPlaceholder"
+          class="osk-board-action__input"
+          type="text"
+          @keydown.enter="sendMessage"
+        />
+        <div
+          v-if="inputDisablePlaceholder && inputDisable"
+          class="osk-board-action__disable-text"
+        >
+          <span>{{ inputDisablePlaceholder }}</span>
+        </div>
+      </div>
+      <div class="osk-board-action__extra">
+        <slot name="actions"></slot>
+        <button class="osk-action-item osk-action-item--send" @click="sendMessage">
+          <slot name="sendButton">
+            <img class="osk-action-icon osk-action-icon--send" src="@/assets/icons/send.svg"  alt="icon-send"/>
+          </slot>
+        </button>
+      </div>
+    </div>
+  </div>
 </template>
-<script>
-import IconSend from '../../assets/icons/send.svg'
 
-export default {
-  components: {
-    IconSend
-  },
+<script lang="ts">
+import { defineComponent, ref, computed, onMounted, PropType } from 'vue';
 
+export default defineComponent({
   props: {
     inputPlaceholder: {
-      type: String
+      type: String as PropType<string>,
     },
-
     inputDisablePlaceholder: {
-      type: String
+      type: String as PropType<string>,
     },
-
     inputDisable: {
-      type: Boolean,
-      default: false
-    }
+      type: Boolean as PropType<boolean>,
+      default: false,
+    },
   },
+  setup(props, { emit }) {
+    const messageText = ref<string | null>(null);
+    // Declare a ref to the input element
+    const oskMessageInput = ref<HTMLElement | null>(null);
 
-  data () {
-    return {
-      messageText: null
-    }
-  },
+    const actionClass = computed(() => {
+      const actionClasses = [];
 
-  computed: {
-    actionClass () {
-      const actionClasses = []
-
-      if (this.inputDisable) {
-        actionClasses.push('qkb-board-action--disabled')
+      if (props.inputDisable) {
+        actionClasses.push('osk-board-action--disabled');
       }
 
-      if (this.messageText) {
-        actionClasses.push('qkb-board-aciton--typing')
+      if (messageText.value) {
+        actionClasses.push('osk-board-aciton--typing');
       }
 
       // TODO: sending
 
-      return actionClasses
-    }
-  },
+      return actionClasses;
+    });
 
-  mounted () {
-    this.$refs.qkbMessageInput.focus()
-  },
+    onMounted(() => {
+      oskMessageInput.value?.focus();
+    });
 
-  methods: {
-    sendMessage () {
-      if (this.messageText) {
-        this.$emit('msg-send', { text: this.messageText })
-        this.messageText = null
+    const sendMessage = () => {
+      if (messageText.value) {
+        emit('msg-send', { text: messageText.value });
+        messageText.value = null;
       }
-    }
-  }
-}
+    };
+
+    return {
+      oskMessageInput,
+      messageText,
+      actionClass,
+      sendMessage,
+    };
+  },
+});
 </script>
