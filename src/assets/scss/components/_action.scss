@@ -1,13 +1,15 @@
-.qkb-board-action {
+@use "../variables" as v;
+
+.osk-board-action {
   position: relative;
   display: flex;
   flex: none;
-  height: $action-height;
+  height: v.$action-height;
   padding: 0.45rem 1.25rem 0.5rem;
-  border-top: 1px solid $action-line;
+  border-top: 1px solid v.$action-line;
 }
 
-.qkb-board-action--disabled {
+.osk-board-action--disabled {
   &::before {
     content: '';
     display: block;
@@ -22,19 +24,19 @@
   }
 }
 
-.qkb-board-action__wrapper {
+.osk-board-action__wrapper {
   display: flex;
   width: 100%;
-  background-color: $action-input-bg;
+  background-color: v.$action-input-bg;
 }
 
-.qkb-board-action__msg-box {
+.osk-board-action__msg-box {
   position: relative;
   flex-grow: 1;
   padding: 0 1rem 0 0;
 }
 
-.qkb-board-action__input {
+.osk-board-action__input {
   height: 100%;
   width: 100%;
   padding: 0;
@@ -50,7 +52,7 @@
   }
 }
 
-.qkb-board-action__disable-text {
+.osk-board-action__disable-text {
   display: flex;
   align-items: center;
   position: absolute;
@@ -58,17 +60,17 @@
   left: 0;
   height: 100%;
   width: 100%;
-  background-color: $action-input-bg;
+  background-color: v.$action-input-bg;
   font-size: 0.875rem;
 }
 
-.qkb-board-action__extra {
+.osk-board-action__extra {
   display: flex;
   flex: none;
   justify-content: center;
 }
 
-.qkb-action-item {
+.osk-action-item {
   display: block;
   padding: 0;
   outline: 0;
@@ -85,17 +87,17 @@
   }
 }
 
-.qkb-action-icon {
+.osk-action-icon {
   width: 16px;
   height: 16px;
   line-height: 1;
-  fill: $action-icon-color;
-  color: $action-icon-color;
+  fill: v.$action-icon-color;
+  color: v.$action-icon-color;
   vertical-align: middle;
 }
 
-.qkb-board-aciton--typing {
-  .qkb-action-item--send {
+.osk-board-aciton--typing {
+  .osk-action-item--send {
     opacity: 1;
   }
 }

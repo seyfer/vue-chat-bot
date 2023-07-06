@@ -1,10 +1,10 @@
 <template>
-  <div :class="bubbleClass" class="qkb-msg-bubble">
-    <div v-if="message.agent === 'bot'" class="qkb-msg-avatar">
-      <div class="qkb-msg-avatar__img">&nbsp;</div>
+  <div :class="bubbleClass" class="osk-msg-bubble">
+    <div v-if="message.agent === 'bot'" class="osk-msg-avatar">
+      <div class="osk-msg-avatar__img">&nbsp;</div>
     </div>
     <component :is="componentType" v-if="componentType" :main-data="message"></component>
-    <div v-if="message.createdAt" class="qkb-msg-bubble__time">{{ message.createdAt }}</div>
+    <div v-if="message.createdAt" class="osk-msg-bubble__time">{{ message.createdAt }}</div>
   </div>
 </template>
 
@@ -12,11 +12,10 @@
 import { computed, defineComponent, PropType } from 'vue';
 import SingleText from './SingleText.vue'
 import ButtonOptions from './ButtonOptions.vue'
+import { Message } from "@/helpers/message";
 
-interface Message {
-  agent: string;
+interface MessageWithDate extends Message{
   createdAt: string;
-  type: string;
 }
 
 export default defineComponent({
@@ -26,15 +25,15 @@ export default defineComponent({
   },
   props: {
     message: {
-      type: Object as PropType<Message>,
+      type: Object as PropType<MessageWithDate>,
       required: true,
     },
   },
   setup(props) {
     const bubbleClass = computed(() => {
       return props.message.agent === 'bot'
-        ? 'qkb-msg-bubble--bot'
-        : 'qkb-msg-bubble--user'
+        ? 'osk-msg-bubble--bot'
+        : 'osk-msg-bubble--user'
     });
 
     const componentType = computed(() => {

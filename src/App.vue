@@ -18,8 +18,7 @@ import { defineComponent, ref } from 'vue';
 // @ts-ignore
 import BotIcon from './assets/icons/bot.png';
 import { VueChatBot } from './vue-chat-bot';
-import { messageService } from './helpers/message';
-import { Message } from "@/helpers/fake-messages";
+import { Message, messageService } from './helpers/message';
 
 export default defineComponent({
   components: {

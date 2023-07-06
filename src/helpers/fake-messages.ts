@@ -1,16 +1,4 @@
-export interface Option {
-  text: string;
-  value: string;
-  action: 'postback' | 'url';
-}
-
-export interface Message {
-  agent?: string,
-  type: 'text' | 'button';
-  text: string;
-  options?: Option[];
-  disableInput?: boolean;
-}
+import { Message } from "@/helpers/message";
 
 export const fakeMessages: Message[] = [
   {

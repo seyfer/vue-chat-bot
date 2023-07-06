@@ -1,12 +1,12 @@
 <template>
-  <div ref="boardContentRef" class="qkb-board-content">
-    <div ref="boardBubblesRef" class="qkb-board-content__bubbles">
+  <div ref="boardContentRef" class="osk-board-content">
+    <div ref="boardBubblesRef" class="osk-board-content__bubbles">
       <message-bubble
         v-for="(item, index) in mainData"
         :key="index"
         :message="item"
       ></message-bubble>
-      <div v-if="botTyping" class="qkb-board-content__bot-typing">
+      <div v-if="botTyping" class="osk-board-content__bot-typing">
         <slot name="botTyping">
           <message-typing></message-typing>
         </slot>

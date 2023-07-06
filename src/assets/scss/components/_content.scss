@@ -1,21 +1,23 @@
-.qkb-board-content {
+@use "../variables" as v;
+
+.osk-board-content {
   flex-grow: 1;
   overflow: hidden scroll;
 }
 
-.qkb-board-content__bubbles {
+.osk-board-content__bubbles {
   min-height: 100%;
   padding: 1.5rem 1.25rem 1rem;
 }
 
 // Message Bubble Components
 // TODO: split into single component files
-.qkb-msg-bubble {
+.osk-msg-bubble {
   display: flex;
   position: relative;
 }
 
-.qkb-msg-avatar {
+.osk-msg-avatar {
   flex-grow: 1;
   flex: none;
   position: relative;
@@ -23,7 +25,7 @@
   border-radius: 50%;
 }
 
-.qkb-msg-avatar__img {
+.osk-msg-avatar__img {
   position: absolute;
   top: 0;
   left: 0;
@@ -34,7 +36,7 @@
   background-repeat: no-repeat;
 }
 
-.qkb-msg-bubble__time {
+.osk-msg-bubble__time {
   display: none;
   position: absolute;
   right: 0;
@@ -43,62 +45,62 @@
   margin-top: -5px;
   border-radius: 5px;
   font-size: 0.625rem;
-  color: $bubble-time-color;
-  background-color: $bubble-time-bg;
+  color: v.$bubble-time-color;
+  background-color: v.$bubble-time-bg;
   transform: translate(0, -100%);
   opacity: 0;
   transition: opacity linear .1s 1s;
 
-  .qkb-msg-bubble--user & {
+  .osk-msg-bubble--user & {
     display: block;
   }
 }
 
-.qkb-msg-bubble-component {
+.osk-msg-bubble-component {
   font-size: .875rem;
 
   &:hover {
-    & ~ .qkb-msg-bubble__time {
+    & ~ .osk-msg-bubble__time {
       opacity: .8;
     }
   }
 }
 
-.qkb-msg-bubble {
+.osk-msg-bubble {
   padding-bottom: 1rem;
 
-  &.qkb-msg-bubble--bot {
-    .qkb-msg-bubble-component {
+  &.osk-msg-bubble--bot {
+    .osk-msg-bubble-component {
       margin-right: 2.5rem;
       margin-left: .5rem;
     }
   }
 
-  &.qkb-msg-bubble--user {
+  &.osk-msg-bubble--user {
     justify-content: flex-end;
 
-    .qkb-msg-bubble-component {
+    .osk-msg-bubble-component {
       margin-left: 5rem;
     }
   }
 }
 
-.qkb-msg-bubble-component__text {
+.osk-msg-bubble-component__text {
   position: relative;
   padding: .75rem 1rem;
   border-radius: 6px;
 }
 
-.qkb-msg-bubble-component__options-wrapper {
+.osk-msg-bubble-component__options-wrapper {
   display: flex;
   flex-wrap: wrap;
 }
 
-.qkb-mb-button-options__item {
+.osk-mb-button-options__item {
   flex: 0 0 auto;
 }
 
-.qkb-mb-button-options__btn {
+.osk-mb-button-options__btn {
   display: block;
   overflow: hidden;
   position: relative;
@@ -123,15 +125,15 @@
 
 
 // Typing indicator
-.qkb-msg-bubble__typing-indicator {
+.osk-msg-bubble__typing-indicator {
   position: relative;
-  min-width: $typing-indicator-size * 3 + 8px;
+  min-width: v.$typing-indicator-size * 3 + 8px;
   opacity: .3;
 
   span {
     display: block;
-    width: $typing-indicator-size;
-    height: $typing-indicator-size;
+    width: v.$typing-indicator-size;
+    height: v.$typing-indicator-size;
     margin: 0 auto;
     border-radius: 50%;
   }
@@ -143,8 +145,8 @@
     display: block;
     position: absolute;
     top: 0;
-    width: $typing-indicator-size;
-    height: $typing-indicator-size;
+    width: v.$typing-indicator-size;
+    height: v.$typing-indicator-size;
     border-radius: 50%;
   }
 

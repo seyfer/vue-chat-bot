@@ -1,11 +1,13 @@
-.qkb-bot-ui {
+@use "../variables" as v;
+
+.osk-bot-ui {
   position: fixed;
-  z-index: $bot-zindex;
+  z-index: v.$bot-zindex;
   bottom: 1.5rem;
   right: 1.5rem;
   display: flex;
   flex-direction: column;
-  font-size: $font-size-root;
+  font-size: v.$font-size-root;
 
   * {
     box-sizing: border-box;
@@ -17,7 +19,7 @@
   }
 }
 
-.qkb-preload-image {
+.osk-preload-image {
   position: absolute;
   top: 0;
   left: 0;

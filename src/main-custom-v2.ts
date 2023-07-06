@@ -1,9 +1,8 @@
 import Vue from 'vue'
 import vueCustomElement from 'vue-custom-element'
-// import VueChatBot from '@/components/BotUI.vue'
 import VueChatBot from '@/App.vue'
 
-// install     "document-register-element": "^1.14.10",
+// install     "document-register-element": "^1.14.10", vue-custom-element
 // Needed to support the custom element in older browsers
 import 'document-register-element'
 

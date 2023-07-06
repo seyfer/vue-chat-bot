@@ -1,7 +1,7 @@
 <template>
-  <div :class="uiClasses" class="qkb-bot-ui">
-    <transition name="qkb-fadeUp">
-      <div v-if="botActive" class="qkb-board">
+  <div :class="uiClasses" class="osk-bot-ui">
+    <transition name="osk-fadeUp">
+      <div v-if="botActive" class="osk-board">
         <BoardHeader :bot-title="optionsMain.botTitle" @close-bot="botToggle">
           <template v-slot:header>
             <slot name="header"></slot>
@@ -16,19 +16,30 @@
         />
       </div>
     </transition>
-    <div class="qkb-bot-bubble">
-      <button class="qkb-bubble-btn" @click="botToggle">
+    <div class="osk-bot-bubble">
+      <button class="osk-bubble-btn" @click="botToggle">
         <slot name="bubbleButton">
-          <transition name="qkb-scaleUp">
-            <img v-if="!botActive" key="1" class="qkb-bubble-btn-icon" src="@/assets/icons/bubble.svg" />
-            <img v-else key="2" class="qkb-bubble-btn-icon qkb-bubble-btn-icon--close" src="@/assets/icons/close.svg" />
+          <transition name="osk-scaleUp">
+            <img v-if="!botActive"
+                 key="bot-inactive"
+                 class="osk-bubble-btn-icon"
+                 src="@/assets/icons/bubble.svg"
+                 alt="bot-inactive" />
+            <img
+              v-else
+              key="bot-active"
+              class="osk-bubble-btn-icon osk-bubble-btn-icon--close"
+              src="@/assets/icons/close.svg"
+              alt="bot-active" />
           </transition>
         </slot>
       </button>
     </div>
+
     <AppStyle :options="optionsMain" />
-    <div class="qkb-preload-image">
-      <div v-if="optionsMain.botAvatarImg" class="qkb-msg-avatar__img"></div>
+
+    <div class="osk-preload-image">
+      <div v-if="optionsMain.botAvatarImg" class="osk-msg-avatar__img"></div>
     </div>
   </div>
 </template>
@@ -40,6 +51,7 @@ import BoardHeader from './Board/Header.vue'
 import BoardContent from './Board/Content.vue'
 import BoardAction from './Board/Action.vue'
 import AppStyle from './AppStyle.vue'
+import { Message } from "@/helpers/message";
 
 interface Options {
   botTitle?: string;
@@ -57,9 +69,6 @@ interface Options {
   inputPlaceholder?: string;
   inputDisableBg?: string;
   inputDisablePlaceholder?: string;
-}
-
-interface Message {
 }
 
 export default defineComponent({
@@ -118,7 +127,7 @@ export default defineComponent({
       const classes = [];
 
       if (optionsMain.value.animation) {
-        classes.push('qkb-bot-ui--animate');
+        classes.push('osk-bot-ui--animate');
       }
 
       return classes;

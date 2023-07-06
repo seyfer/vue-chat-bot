@@ -1,0 +1,14 @@
+<meta charset="utf-8">
+<title>osk-chat-bot demo</title>
+
+<body>
+    <osk-chatbot id="osk-chat-bot" data-hash="testhash123"></osk-chatbot>
+
+    <!-- consider one script tag solution, move data props to script tag, create chat-bot tag dynamically  -->
+    <script src="chat-bot-loader.min.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        console.log('osk-chat-bot')
+      });
+    </script>
+</body>

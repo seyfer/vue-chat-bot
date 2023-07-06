@@ -1,7 +1,7 @@
 <template>
-  <div class="qkb-board-header">
+  <div class="osk-board-header">
     <slot name="header">
-      <div class="qkb-board-header__title">{{ botTitle }}</div>
+      <div class="osk-board-header__title">{{ botTitle }}</div>
     </slot>
   </div>
 </template>
@@ -13,6 +13,7 @@ export default defineComponent({
   props: {
     botTitle: {
       type: String as PropType<string>,
+
       default: 'Chatbot',
     },
   },

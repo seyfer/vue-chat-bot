@@ -1,7 +1,21 @@
-import { fakeMessages, Message } from './fake-messages'
+import { fakeMessages } from './fake-messages'
 
 export const messageService = {
   createMessage,
+}
+
+export interface Option {
+  text: string;
+  value: string;
+  action: 'postback' | 'url';
+}
+
+export interface Message {
+  agent?: string,
+  type: 'text' | 'button';
+  text: string;
+  options?: Option[];
+  disableInput?: boolean;
 }
 
 function createMessage (): Promise<Message> {

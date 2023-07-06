@@ -13,7 +13,9 @@
     "build-bundle-custom": "vue-cli-service build --target lib --inline-vue --name osk-chat-bot ./src/main-custom.ts",
     "build-bundle-wc": "vue-cli-service build --target wc --inline-vue --name osk-chat-bot ./src/App.vue",
     "release": "standard-version && git push --follow-tags",
-    "release:next": "standard-version --prerelease next && git push --follow-tags origin dev && npm publish --tag next"
+    "release:next": "standard-version --prerelease next && git push --follow-tags origin dev && npm publish --tag next",
+    "compile-loader": "tsc --project ./demo-html",
+    "minify-loader": "terser --compress --mangle -- ./demo-html/chat-bot-loader.js > ./demo-html/chat-bot-loader.min.js"
   },
   "main": "dist/vue-chat-bot.common.js",
   "files": [
